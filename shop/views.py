@@ -9,7 +9,8 @@ def homepage(request):
     return render(request, 'pages/index.html', {'products': products})
 
 def shop(request):
-    return render(request, 'pages/shop.html')
+    products = Product.objects.all().order_by('-created')
+    return render(request, 'pages/shop.html', {'products': products})
 
 def product_details(request):
     return render(request, 'pages/product-details.html')
