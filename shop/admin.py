@@ -24,7 +24,7 @@ admin.site.register(Tag, TagAdmin)
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['name', 'slug', 'price', 'old_price', 'rait', 'available', 'quantity']
+    list_display = ['name', 'slug', 'price', 'old_price', 'rait', 'available', 'quantity', 'created']
     list_filter = ['rait', 'available', 'created', 'tag', 'brand', 'category']
     list_editable = ['price', 'old_price', 'available', 'quantity']
     prepopulated_fields = {'slug':('name',)}

@@ -1,8 +1,12 @@
 from django.shortcuts import render
+from .models import Product, Brand, Tag, Category
+
+
 
 
 def homepage(request):
-    return render(request, 'pages/index.html')
+    products = Product.objects.all()
+    return render(request, 'pages/index.html', {'products': products})
 
 def shop(request):
     return render(request, 'pages/shop.html')

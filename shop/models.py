@@ -1,7 +1,11 @@
 from django.db import models
 from django.db.models.deletion import SET_NULL
+from django.db.models.query_utils import PathInfo
 from django.urls import reverse
+from datetime import date, timedelta, datetime
+import pytz
 
+utc=pytz.UTC
 
 class Brand(models.Model):
     name = models.CharField(max_length=250)
@@ -61,8 +65,8 @@ class Product(models.Model):
     description = models.TextField()
     specification = models.TextField()
     # reviews
-    price = models.DecimalField(max_digits=10, decimal_places=1)
-    old_price = models.DecimalField(max_digits=10, decimal_places=1, blank=True)
+    price = models.DecimalField(max_digits=10, decimal_places=1, blank=True)
+    old_price = models.DecimalField(max_digits=10, decimal_places=1, null=True, blank=True)
     available = models.BooleanField(default=True)
     quantity = models.IntegerField(default=5)
     rait = models.PositiveIntegerField(default=0)
@@ -79,6 +83,13 @@ class Product(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+
+    @property
+    def is_new(self):
+        new_date = utc.localize(datetime.today() - timedelta(days=1))
+        diff = (new_date-self.created).days
+        return diff < 0
 
     def get_absolute_url(self):
         return reverse('shop:product_detail', args=[self.id, self.slug])
