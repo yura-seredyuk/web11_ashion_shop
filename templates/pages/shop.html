@@ -4,10 +4,6 @@
 {% block title %}Store{% endblock %}
 
 {% block content %}
-
-<body>
-
-
     {% include 'layouts/breadcrumbs.html' %}
 
     <!-- Shop Section Begin -->
@@ -246,7 +242,7 @@
                                     </ul>
                                 </div>
                                 <div class="product__item__text">
-                                    <h6><a href="#">{{ product.name }}</a></h6>
+                                    <h6><a href="{% url 'product-details' pk=product.id %}">{{ product.name }}</a></h6>
                                     <div class="rating">
                                         {% with ''|center:5 as range %}
                                         {% for _ in range %}

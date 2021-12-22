@@ -1855,13 +1855,13 @@ ol {
 	overflow: hidden;
 }
 
-.product__details__widget ul li .stock__checkbox label {
+.product__details__widget ul li .stock__checkbox span {
 	display: block;
-	padding-left: 20px;
 	font-size: 14px;
 	color: #666666;
 	position: relative;
 	cursor: pointer;
+	font-weight: normal;
 }
 
 .product__details__widget ul li .stock__checkbox label input {
