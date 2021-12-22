@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.db import models
-from .models import Category, Tag, Brand, Product
+from .models import Category, Tag, Brand, Product, Colors
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -14,7 +14,6 @@ class BrandAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug':('name',)}
 
 admin.site.register(Brand, BrandAdmin)
-
 
 class TagAdmin(admin.ModelAdmin):
     list_display = ['name', 'slug']
@@ -31,3 +30,8 @@ class ProductAdmin(admin.ModelAdmin):
 
 admin.site.register(Product, ProductAdmin)
 
+class ColorsAdmin(admin.ModelAdmin):
+    list_display = ['color']
+    
+
+admin.site.register(Colors, ColorsAdmin)

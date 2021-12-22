@@ -51,6 +51,17 @@ class Tag(models.Model):
     def get_absolute_url(self):
         return reverse('shop:product_list_by_tag', args=[self.slug])
 
+class Colors(models.Model):
+    color = models.CharField(max_length=30)
+    
+    class Meta:
+        ordering = ['color']
+        verbose_name = 'Colors',
+        verbose_name_plural = 'Colors'
+
+    def __str__(self):
+        return self.color
+
 class Product(models.Model):
     name = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250, unique=True)
@@ -71,7 +82,7 @@ class Product(models.Model):
     quantity = models.IntegerField(default=5)
     rait = models.PositiveIntegerField(default=0)
     review_count = models.IntegerField(default=0)
-    # colors
+    colors = models.ManyToManyField(Colors)
     # sizes
     promotions = models.CharField(max_length=50, default='Free shipping')
     created = models.DateTimeField(auto_now_add=True)

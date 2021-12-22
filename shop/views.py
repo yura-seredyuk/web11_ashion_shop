@@ -1,7 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Product, Brand, Tag, Category
-
-
+from .models import Product, Brand, Tag, Category, Colors
 
 
 def homepage(request):
@@ -13,10 +11,11 @@ def shop(request):
     return render(request, 'pages/shop.html', {'products': products})
 
 def product_details(request, pk):
-    # product = Product.objects.filter(pk = pk)
     product = get_object_or_404(Product,pk = pk)
-    print(product)
-    return render(request, 'pages/product-details.html', {'product': product})
+    colors = product.colors.all()
+    print(colors)
+    return render(request, 'pages/product-details.html', {'product': product,
+                                                          'colors': colors})
 
 def shop_cart(request):
     return render(request, 'pages/shop-cart.html')
