@@ -87,9 +87,29 @@ class Product(models.Model):
 
     @property
     def is_new(self):
-        new_date = utc.localize(datetime.today() - timedelta(days=1))
+        """
+        params: days_count for mark new products
+        """
+        days_count = 1
+        new_date = utc.localize(datetime.today() - timedelta(days=days_count))
         diff = (new_date-self.created).days
-        return diff < 0
+        if diff < 0 and self.available:
+            return True
+        else:
+            return False
+
+    @property
+    def is_sale(self):
+        """
+        params: days_count for sale products
+        """
+        days_count = 1
+        new_date = utc.localize(datetime.today() - timedelta(days=days_count))
+        diff = (new_date-self.created).days
+        if diff >= 0 and self.available:
+            return True
+        else:
+            return False
 
     def get_absolute_url(self):
         return reverse('shop:product_detail', args=[self.id, self.slug])

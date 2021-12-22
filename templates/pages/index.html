@@ -92,7 +92,12 @@
                     {% if product.is_new %}
                     <div class="label new">New</div>
                     {% endif %}
-
+                    {% if not product.available %}
+                    <div class="label stockout">out of stock</div>
+                    {% endif %}
+                    {% if product.is_sale %}
+                    <div class="label sale">Sale</div>
+                    {% endif %}
 
                     <ul class="product__hover">
                         <li><a href="{{ product.main_photo.url }}" class="image-popup"><span class="arrow_expand"></span></a></li>

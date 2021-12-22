@@ -5,7 +5,7 @@ from .models import Product, Brand, Tag, Category
 
 
 def homepage(request):
-    products = Product.objects.all()
+    products = Product.objects.all().order_by('-created')
     return render(request, 'pages/index.html', {'products': products})
 
 def shop(request):
