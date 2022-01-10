@@ -36,11 +36,12 @@ class Category(models.Model):
 
 class Tag(models.Model):
     """
-    select: Men's, Women's
+    select: Men's, Women's, Kid's
     """
     TAGS = (
         ('men', "Men's"),
-        ('womens', "Women's"),
+        ('women', "Women's"),
+        ('kid', "Kid's"),
     )
     name = models.CharField(max_length=10, choices=TAGS, default='men')
     slug = models.SlugField(max_length=10, unique=True)

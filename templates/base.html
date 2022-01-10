@@ -48,8 +48,8 @@
                     <nav class="header__menu">
                         <ul>
                             <li class="active"><a href="{% url 'homepage' %}">Home</a></li>
-                            <li><a href="{% url 'shop' %}">Women’s</a></li>
-                            <li><a href="{% url 'shop' %}">Men’s</a></li>
+                            <li><a href="{% url 'shop' tag_slug='women' %}">Women’s</a></li>
+                            <li><a href="{% url 'shop' tag_slug='men' %}">Men’s</a></li>
                             <li><a href="{% url 'shop' %}">Shop</a></li>
                             <li><a href="#">Pages</a>
                                 <ul class="dropdown">

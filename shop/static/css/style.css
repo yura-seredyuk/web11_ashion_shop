@@ -1342,6 +1342,7 @@ ol {
 
 .categories__accordion .card-heading {
 	cursor: pointer;
+	text-transform: capitalize;
 }
 
 .categories__accordion .card-heading a {
