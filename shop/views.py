@@ -25,14 +25,23 @@ def shop(request, tag_slug=None, category_slug=None):
     else:
         products = Product.objects.all().order_by('-created')
 
+    min_price = max_price = products[0].price
+    for product in products:
+        if product.price < min_price:
+            min_price = product.price
+        if product.price > max_price:
+            max_price = product.price 
 
- 
+    if request.method == 'POST':
+        print(request)
 
     return render(request, 'pages/shop.html', {'products': products,
                                                 'tags':tags,
                                                 'categories':categories,
                                                 'brands':brands,
-                                                'colors':colors})
+                                                'colors':colors,
+                                                'min_price': int(min_price),
+                                                'max_price': int(max_price)})
 
 def product_details(request, pk):
     product = get_object_or_404(Product,pk = pk)
