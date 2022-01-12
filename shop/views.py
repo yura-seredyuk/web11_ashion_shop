@@ -25,13 +25,16 @@ def shop(request, tag_slug=None, category_slug=None):
     else:
         products = Product.objects.all().order_by('-created')
 
-    min_price = max_price = products[0].price
-    for product in products:
-        if product.price < min_price:
-            min_price = product.price
-        if product.price > max_price:
-            max_price = product.price 
-
+    if products:
+        min_price = max_price = products[0].price
+        for product in products:
+            if product.price < min_price:
+                min_price = product.price
+            if product.price > max_price:
+                max_price = product.price 
+    else:
+        min_price = max_price = 0
+        
     if request.method == 'POST':
         print(request)
 
