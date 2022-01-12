@@ -17,11 +17,17 @@ def cart_add(request, product_id):
         cart.add(product=product, 
                 quantity=c_d['quantity'],
                 update_quantity=c_d['update'])
-    return redirect('cart:shop_cart')
+    return redirect('cart:cart_detail')
 
-def shop_cart(request):
+def cart_remove(request, product_id):
+    cart = Cart(request)
+    product = get_object_or_404(Product, id=product_id)
+    cart.remove(product)
+    return redirect('cart:cart_detail')
+
+def cart_detail(request):
     cart_data = Cart(request)
-    return render(request, 'cart/shop-cart.html', 
+    return render(request, 'cart/detail.html', 
                     {'cart':cart(request), 
                     'cart_data':cart_data, 
-                    'cart_count':cart_data.__len__()})
+                    'count':cart_data.__len__()})

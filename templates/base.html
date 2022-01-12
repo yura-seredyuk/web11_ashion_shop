@@ -54,7 +54,7 @@
                             <li><a href="#">Pages</a>
                                 <ul class="dropdown">
                                     <li><a href="{% url 'product-details' pk=1 %}">Product Details</a></li>
-                                    <li><a href="{% url 'shop-cart' %}">Shop Cart</a></li>
+                                    <li><a href="{% url 'cart:cart_detail' %}">Shop Cart</a></li>
                                     <li><a href="{% url 'checkout' %}">Checkout</a></li>
                                     <li><a href="#">Blog Details</a></li>
                                 </ul>
@@ -75,7 +75,7 @@
                             <li><a href="#"><span class="icon_heart_alt"></span>
                                 <div class="tip">2</div>
                             </a></li>
-                            <li><a href="{% url 'shop-cart' %}"><span class="icon_bag_alt"></span>
+                            <li><a href="{% url 'cart:cart_detail' %}"><span class="icon_bag_alt"></span>
                                 <div class="tip">2</div>
                             </a></li>
                         </ul>
