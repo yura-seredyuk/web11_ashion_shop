@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
+from cart.cart import Cart
 from .models import Product, Brand, Tag, Category, Colors
-
+from django.conf import settings
 
 def homepage(request):
     products = Product.objects.all().order_by('-created')
@@ -25,9 +26,6 @@ def shop(request, tag_slug=None, category_slug=None):
     else:
         colors = Colors.objects.all()
  
-
-    # if selected_colors:
-    #     products = Product.objects.filter(colors__in=colors)
 
     if category_slug:
         tag = Tag.objects.filter(slug=tag_slug)[0]
@@ -76,7 +74,21 @@ def product_details(request, pk):
                                                           'colors': colors})
 
 def shop_cart(request):
-    return render(request, 'pages/shop-cart.html')
+    cart = request.session.get(settings.CART_SESSION_ID)
+    count = subtotal = total =  0
+    product_list = 0
+    if cart:
+        cart_values = cart.values()
+        for item in cart_values:
+            count += item['quantity']
+            subtotal += item['quantity'] * float(item['price'])
+
+        cart_items_id = cart.keys()
+        product_list = Product.objects.filter(id__in=cart_items_id)
+        cart = Cart(request)
+
+    return {'count': count, 'product_list':product_list, 
+            'subtotal':subtotal, 'cart':cart}
 
 def checkout(request):
     return render(request, 'pages/checkout.html')
