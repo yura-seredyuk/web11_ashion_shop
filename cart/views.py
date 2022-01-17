@@ -10,10 +10,13 @@ from shop.views import shop_cart as cart
 def cart_add(request, product_id):
     cart = Cart(request)
     product = get_object_or_404(Product, id=product_id)
+    print(product)
     form = CartAddProductForm(request.POST)
-
+    print(form.is_valid())
     if form.is_valid():
         c_d = form.cleaned_data
+        
+        
         cart.add(product=product, 
                 quantity=c_d['quantity'],
                 update_quantity=c_d['update'])
