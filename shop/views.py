@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from cart.cart import Cart
+from cart.forms import CartAddProductForm
 from .models import Product, Brand, Tag, Category, Colors
 from django.conf import settings
 
@@ -54,7 +55,7 @@ def shop(request, tag_slug=None, category_slug=None):
     else:
         min_price = max_price = 0
 
-
+    cart_product_form = CartAddProductForm()
 
     return render(request, 'pages/shop.html', {'products': products,
                                                 'tags':tags,
@@ -64,14 +65,19 @@ def shop(request, tag_slug=None, category_slug=None):
                                                 'min_price': int(min_price),
                                                 'max_price': int(max_price),
                                                 'available_colors':available_colors,
-                                                'selected_colors': selected_colors})
+                                                'selected_colors': selected_colors,
+                                                'cart_product_form':cart_product_form,
+                                                'cart': shop_cart(request)})
 
 def product_details(request, pk):
     product = get_object_or_404(Product,pk = pk)
     colors = product.colors.all()
     print(colors)
+    cart_product_form = CartAddProductForm()
     return render(request, 'pages/product-details.html', {'product': product,
-                                                          'colors': colors})
+                                                          'colors': colors,
+                                                          'cart_product_form':cart_product_form,
+                                                          'cart': shop_cart(request)})
 
 def shop_cart(request):
     cart = request.session.get(settings.CART_SESSION_ID)

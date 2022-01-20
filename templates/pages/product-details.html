@@ -74,8 +74,8 @@
                                 </div>
                             </div>
                             <form action="{% url 'cart:cart_add' product_id=product.id %}" method="post">
-                                {{ cart_product_form }}
                                 {% csrf_token %}
+                                {{ cart_product_form }}
                                 <input type="submit" value="Add to cart">
                             </form>
                             <a href="#" class="cart-btn" disabled><span class="icon_bag_alt"></span> Add to cart</a>
