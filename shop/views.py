@@ -6,7 +6,8 @@ from django.conf import settings
 
 def homepage(request):
     products = Product.objects.all().order_by('-created')
-    return render(request, 'pages/index.html', {'products': products})
+    return render(request, 'pages/index.html', {'products': products,
+                                                'cart': shop_cart(request)})
 
 def shop(request, tag_slug=None, category_slug=None):
     tags = Tag.objects.all()
@@ -92,12 +93,24 @@ def shop_cart(request):
         cart_items_id = cart.keys()
         product_list = Product.objects.filter(id__in=cart_items_id)
         cart = Cart(request)
+        products = []
 
-    return {'count': count, 'product_list':product_list, 
-            'subtotal':subtotal, 'cart':cart}
+        for product in  product_list:
+            cart_item = {}
+            cart_item['product'] = product
+            cart_item['quantity'] = cart.cart[f'{product.id}']['quantity']
+            products.append(cart_item)
+            
+            
+
+    return {'count': count, 
+            'product_list':product_list, 
+            'subtotal':subtotal, 
+            'cart':cart, 
+            'products': products}
 
 def checkout(request):
-    return render(request, 'pages/checkout.html')
+    return render(request, 'pages/checkout.html', {'cart': shop_cart(request)})
 
 def contact(request):
-    return render(request, 'pages/contact.html')
+    return render(request, 'pages/contact.html', {'cart': shop_cart(request)})

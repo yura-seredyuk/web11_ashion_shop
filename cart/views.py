@@ -33,4 +33,4 @@ def cart_detail(request):
     return render(request, 'cart/detail.html', 
                     {'cart':cart(request), 
                     'cart_data':cart_data, 
-                    'count':cart_data.__len__()})
+                    'count':cart_data.__len__()}) 

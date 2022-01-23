@@ -27,9 +27,6 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="shop__cart__table">
-                        {{cart}}
-                        {{cart_data}}
-                        {{count}}
                         <table>
                             <thead>
                                 <tr>
@@ -41,98 +38,37 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                {% if cart.products %}
+                                {% for product in cart.products %}
                                 <tr>
                                     <td class="cart__product__item">
-                                        <img src="{% static 'img/shop-cart/cp-1.jpg' %}" alt="">
+                                        <img src="{{product.product.main_photo.url}}" alt="">
                                         <div class="cart__product__item__title">
-                                            <h6>Chain bucket bag</h6>
+                                            <h6>{{  product.product.name }}</h6>
                                             <div class="rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
+                                                {% with ''|center:5 as range %}
+                                                {% for _ in range %}
+                                                    {% if forloop.counter <= product.product.rait %}
+                                                    <i class="fa fa-star"></i>
+                                                    {% else %}
+                                                    <i class="fa fa-star-o"></i>
+                                                    {% endif %}
+                                                {% endfor %}
+                                                {% endwith %}
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="cart__price">$ 150.0</td>
+                                    <td class="cart__price">$ {{ product.product.price }}</td> 
                                     <td class="cart__quantity">
-                                        <div class="pro-qty">
-                                            <input type="text" value="1">
+                                        <div class="pro-qty">                                            
+                                            <input type="text" value={{product.quantity}}>
                                         </div>
                                     </td>
                                     <td class="cart__total">$ 300.0</td>
-                                    <td class="cart__close"><span class="icon_close"></span></td>
+                                    <td class="cart__close"><a href="{% url 'cart:cart_remove' product_id=product.product.id %}"><span class="icon_close"></span></a></td>
                                 </tr>
-                                <tr>
-                                    <td class="cart__product__item">
-                                        <img src="{% static 'img/shop-cart/cp-2.jpg' %}" alt="">
-                                        <div class="cart__product__item__title">
-                                            <h6>Zip-pockets pebbled tote briefcase</h6>
-                                            <div class="rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="cart__price">$ 170.0</td>
-                                    <td class="cart__quantity">
-                                        <div class="pro-qty">
-                                            <input type="text" value="1">
-                                        </div>
-                                    </td>
-                                    <td class="cart__total">$ 170.0</td>
-                                    <td class="cart__close"><span class="icon_close"></span></td>
-                                </tr>
-                                <tr>
-                                    <td class="cart__product__item">
-                                        <img src="{% static 'img/shop-cart/cp-3.jpg' %}" alt="">
-                                        <div class="cart__product__item__title">
-                                            <h6>Black jean</h6>
-                                            <div class="rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="cart__price">$ 85.0</td>
-                                    <td class="cart__quantity">
-                                        <div class="pro-qty">
-                                            <input type="text" value="1">
-                                        </div>
-                                    </td>
-                                    <td class="cart__total">$ 170.0</td>
-                                    <td class="cart__close"><span class="icon_close"></span></td>
-                                </tr>
-                                <tr>
-                                    <td class="cart__product__item">
-                                        <img src="{% static 'img/shop-cart/cp-4.jpg' %}" alt="">
-                                        <div class="cart__product__item__title">
-                                            <h6>Cotton Shirt</h6>
-                                            <div class="rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="cart__price">$ 55.0</td>
-                                    <td class="cart__quantity">
-                                        <div class="pro-qty">
-                                            <input type="text" value="1">
-                                        </div>
-                                    </td>
-                                    <td class="cart__total">$ 110.0</td>
-                                    <td class="cart__close"><span class="icon_close"></span></td>
-                                </tr>
+                                {% endfor %}
+                                {% endif %}
                             </tbody>
                         </table>
                     </div>
@@ -164,8 +100,8 @@
                     <div class="cart__total__procced">
                         <h6>Cart total</h6>
                         <ul>
-                            <li>Subtotal <span>$ 750.0</span></li>
-                            <li>Total <span>$ 750.0</span></li>
+                            <li>Subtotal <span>$ {{cart.subtotal}}</span></li>
+                            <li>Total <span>$ {{cart.subtotal}}</span></li>
                         </ul>
                         <a href="#" class="primary-btn">Proceed to checkout</a>
                     </div>
