@@ -1242,6 +1242,10 @@ ol {
 	transform: rotate(360deg);
 }
 
+.product__hover li form select, .product__hover li form label{
+	display: none;
+}
+
 .product__hover li a {
 	font-size: 18px;
 	color: #111111;
@@ -1255,6 +1259,7 @@ ol {
 	-webkit-transition: all, 0.5s;
 	-o-transition: all, 0.5s;
 	transition: all, 0.5s;
+	cursor: pointer;
 }
 
 .product__hover li a span {
