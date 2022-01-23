@@ -84,6 +84,8 @@ def shop_cart(request):
     cart = request.session.get(settings.CART_SESSION_ID)
     count = subtotal = total =  0
     product_list = 0
+    products = []
+
     if cart:
         cart_values = cart.values()
         for item in cart_values:
@@ -93,7 +95,6 @@ def shop_cart(request):
         cart_items_id = cart.keys()
         product_list = Product.objects.filter(id__in=cart_items_id)
         cart = Cart(request)
-        products = []
 
         for product in  product_list:
             cart_item = {}
