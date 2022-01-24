@@ -44,7 +44,7 @@
                                     <td class="cart__product__item">
                                         <img src="{{product.product.main_photo.url}}" alt="">
                                         <div class="cart__product__item__title">
-                                            <h6>{{  product.product.name }}</h6>
+                                            <h6><a href="{% url 'shop:product-details' pk=product.product.id %}">{{ product.product.name }}</a></h6>
                                             <div class="rating">
                                                 {% with ''|center:5 as range %}
                                                 {% for _ in range %}

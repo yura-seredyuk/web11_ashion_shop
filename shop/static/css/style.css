@@ -2123,7 +2123,7 @@ ol {
 	padding-top: 23px;
 }
 
-.shop__cart__table tbody tr .cart__product__item .cart__product__item__title h6 {
+.shop__cart__table tbody tr .cart__product__item .cart__product__item__title h6 a {
 	color: #111111;
 	font-weight: 600;
 }

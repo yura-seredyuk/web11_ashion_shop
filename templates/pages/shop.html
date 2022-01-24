@@ -142,12 +142,11 @@
                                     <ul class="product__hover">
                                         <li><a href="{{ product.main_photo.url }}" class="image-popup"><span class="arrow_expand"></span></a></li>
                                         <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                        <li>
+                                        <li disabled>
                                             <form action="{% url 'cart:cart_add' product_id=product.id %}" name="cart_add_form_{{product.id}}" method="post">
                                                 {% csrf_token %}
                                                 {{ cart_product_form }}
-                                                <input type="submit" value="Add to cart" style="display: none;">
-                                                <a onClick="document.cart_add_form_{{product.id}}.submit()"><span class="icon_bag_alt"></span></a>
+                                                <a {% if product.available %}onClick="document.cart_add_form_{{product.id}}.submit()"{% else %}style="background: #525252;"{% endif %}><span class="icon_bag_alt"></span></a>
                                             </form>
                                         </li>
                                     </ul>
