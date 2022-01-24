@@ -4,6 +4,8 @@ from cart.forms import CartAddProductForm
 from .models import Product, Brand, Tag, Category, Colors
 from django.conf import settings
 
+from django.core.paginator import Paginator
+
 def homepage(request):
     products = Product.objects.all().order_by('-created')
     return render(request, 'pages/index.html', {'products': products,
@@ -58,6 +60,10 @@ def shop(request, tag_slug=None, category_slug=None):
 
     cart_product_form = CartAddProductForm()
 
+    paginator = Paginator(products, 3)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     return render(request, 'pages/shop.html', {'products': products,
                                                 'tags':tags,
                                                 'categories':categories,
@@ -68,7 +74,8 @@ def shop(request, tag_slug=None, category_slug=None):
                                                 'available_colors':available_colors,
                                                 'selected_colors': selected_colors,
                                                 'cart_product_form':cart_product_form,
-                                                'cart': shop_cart(request)})
+                                                'cart': shop_cart(request),
+                                                'page_obj': page_obj})
 
 def product_details(request, pk):
     product = get_object_or_404(Product,pk = pk)
