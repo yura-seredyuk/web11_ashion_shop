@@ -40,7 +40,7 @@
                             <tbody>
                                 {% if cart.products %}
                                 {% for product in cart.products %}
-                                <tr>
+                                <tr class="cart_item">
                                     <td class="cart__product__item">
                                         <img src="{{product.product.main_photo.url}}" alt="">
                                         <div class="cart__product__item__title">
@@ -64,7 +64,7 @@
                                             <input type="text" value={{product.quantity}}>
                                         </div>
                                     </td>
-                                    <td class="cart__total">$ 300.0</td>
+                                    <td class="cart__total">$ 0</td>
                                     <td class="cart__close"><a href="{% url 'cart:cart_remove' product_id=product.product.id %}"><span class="icon_close"></span></a></td>
                                 </tr>
                                 {% endfor %}
@@ -110,5 +110,33 @@
         </div>
     </section>
     <!-- Shop Cart Section End -->
+    <script>
+        let cart__product__item = document.querySelectorAll('.cart_item')
+        for(let i = 0; i< cart__product__item.length; i++ ){
+            product = cart__product__item[i]
+            price = parseFloat(product.querySelector('.cart__price').textContent.replace('$ ',''))
+            quantity = parseFloat(product.querySelector('.cart__quantity input').value)
+            total = parseFloat(price * quantity).toFixed(1)
+            product.querySelector('.cart__total').textContent = `$ ${total}`
 
+            product.addEventListener('click', function(event){
+                if (event.target.classList.contains('inc') || event.target.classList.contains('dec')){
+                    target_price = parseFloat(cart__product__item[i].querySelector('.cart__price').textContent.replace('$ ',''))
+                    new_quantity = parseFloat(cart__product__item[i].querySelector('.cart__quantity input').value)
+                    mew_total = parseFloat(target_price * new_quantity).toFixed(1)
+                    cart__product__item[i].querySelector('.cart__total').textContent = `$ ${mew_total}`
+                    
+                    let subtotal = 0
+                    for(item of cart__product__item){
+                        subtotal += parseFloat(product.querySelector('.cart__total').textContent.replace('$ ',''))
+                    }
+                    let cart__subtotal = document.querySelector('.cart__total__procced ul li span') 
+                    cart__subtotal.textContent = `$ ${subtotal.toFixed(1)}`
+                    let cart__total = document.querySelector('.cart__total__procced ul li:nth-child(2) span') 
+                    cart__total.textContent = `$ ${subtotal.toFixed(1)}`   
+                }
+            })
+            
+        }
+    </script>
 {% endblock %}   
