@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.db import models
-from .models import Category, Tag, Brand, Product, Colors
+from .models import Category, Tag, Brand, Product, Colors, Sizes
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -35,3 +35,10 @@ class ColorsAdmin(admin.ModelAdmin):
     
 
 admin.site.register(Colors, ColorsAdmin)
+
+
+class SizesAdmin(admin.ModelAdmin):
+    list_display = ['size']
+    
+
+admin.site.register(Sizes, SizesAdmin)

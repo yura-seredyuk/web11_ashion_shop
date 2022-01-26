@@ -59,48 +59,19 @@
                             <div class="section-title">
                                 <h4>Shop by size</h4>
                             </div>
-                            <div class="size__list">
-                                <label for="xxs">
-                                    xxs
-                                    <input type="checkbox" id="xxs">
+                            <form class="size__list" method="post">
+                                {% csrf_token %}
+                                {% for size in sizes %}
+                                <label for="{{size.size}}">
+                                    {{size.size}}s
+                                    <input type="checkbox" id="{{size.size}}" name="sizes" value="{{size.size}}" 
+                                    {% if size.size in selected_sizes %}checked {% endif %}
+                                    >
                                     <span class="checkmark"></span>
                                 </label>
-                                <label for="xs">
-                                    xs
-                                    <input type="checkbox" id="xs">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label for="xss">
-                                    xs-s
-                                    <input type="checkbox" id="xss">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label for="s">
-                                    s
-                                    <input type="checkbox" id="s">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label for="m">
-                                    m
-                                    <input type="checkbox" id="m">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label for="ml">
-                                    m-l
-                                    <input type="checkbox" id="ml">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label for="l">
-                                    l
-                                    <input type="checkbox" id="l">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label for="xl">
-                                    xl
-                                    <input type="checkbox" id="xl">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </div>
+                                {% endfor %}  
+                                <button type="submit">Submit</button>                             
+                            </form>
                         </div>
                         <div class="sidebar__color">
                             <div class="section-title">

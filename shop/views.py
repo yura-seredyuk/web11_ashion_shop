@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from cart.cart import Cart
 from cart.forms import CartAddProductForm
-from .models import Product, Brand, Tag, Category, Colors
+from .models import Product, Brand, Tag, Category, Colors,\
+                    Sizes
 from django.conf import settings
 
 from django.core.paginator import Paginator
@@ -19,6 +20,9 @@ def shop(request, tag_slug=None, category_slug=None, search=None):
     available_colors = []
     selected_colors = []
 
+    available_sizes = []
+    selected_sizes = []   
+
     if request.method == 'POST':
         selected_colors = request.POST.getlist('colors')
         if selected_colors:
@@ -27,11 +31,14 @@ def shop(request, tag_slug=None, category_slug=None, search=None):
             colors = Colors.objects.all()
         print(selected_colors)
         print(colors)
+        sizes = Sizes.objects.all()
     else:
         colors = Colors.objects.all()
+        sizes = Sizes.objects.all()
     
     if request.method == 'POST':
-        search = request.POST.get('search_input').lower() 
+        if request.POST.get('search_input'):
+            search = request.POST.get('search_input').lower() 
 
     if category_slug:
         tag = Tag.objects.filter(slug=tag_slug)[0]
@@ -72,10 +79,12 @@ def shop(request, tag_slug=None, category_slug=None, search=None):
                                                 'categories':categories,
                                                 'brands':brands,
                                                 # 'colors':colors,
+                                                'sizes':sizes,
                                                 'min_price': int(min_price),
                                                 'max_price': int(max_price),
                                                 'available_colors':available_colors,
                                                 'selected_colors': selected_colors,
+                                                'selected_sizes': selected_sizes,
                                                 'cart_product_form':cart_product_form,
                                                 'cart': shop_cart(request),
                                                 'page_obj': page_obj})
@@ -120,7 +129,7 @@ def shop_cart(request):
             'cart':cart, 
             'products': products}
 
-def checkout(request):
+def checkout(request):        
     return render(request, 'pages/checkout.html', {'cart': shop_cart(request)})
 
 def contact(request):

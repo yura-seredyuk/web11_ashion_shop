@@ -63,6 +63,17 @@ class Colors(models.Model):
     def __str__(self):
         return self.color
 
+class Sizes(models.Model):
+    size = models.CharField(max_length=30)
+    
+    class Meta:
+        ordering = ['size']
+        verbose_name = 'Sizes',
+        verbose_name_plural = 'Sizes'
+
+    def __str__(self):
+        return self.size
+
 class Product(models.Model):
     name = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250, unique=True)
@@ -84,7 +95,7 @@ class Product(models.Model):
     rait = models.PositiveIntegerField(default=0)
     review_count = models.IntegerField(default=0)
     colors = models.ManyToManyField(Colors)
-    # sizes
+    sizes = models.ManyToManyField(Sizes)
     promotions = models.CharField(max_length=50, default='Free shipping')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -125,3 +136,5 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse('shop:product_detail', args=[self.id, self.slug])
+
+
