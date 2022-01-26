@@ -5,6 +5,8 @@ from django.urls import reverse
 from datetime import date, timedelta, datetime
 import pytz
 
+from myauth.models import Profile
+
 utc=pytz.UTC
 
 class Brand(models.Model):
@@ -137,4 +139,23 @@ class Product(models.Model):
     def get_absolute_url(self):
         return reverse('shop:product_detail', args=[self.id, self.slug])
 
+class Order(models.Model):
+    STATUS = (
+        ('in_progress', "in progress"),
+        ('accepted', "accepted"),
+        ('deflected', "deflected"),
+    )
 
+    profile_id = models.OneToOneField(Profile, on_delete=models.CASCADE, null=True,)
+    created = models.DateTimeField(auto_now_add=True)
+    subtotal = models.IntegerField(default=0)
+    order_data = models.TextField()
+    status = models.CharField(max_length=20, choices=STATUS, default='in_progress')
+    
+    class Meta:
+        ordering = ['created']
+        verbose_name = 'Orders',
+        verbose_name_plural = 'Orders'
+
+    def __str__(self):
+        return self.order_data

@@ -1,7 +1,7 @@
 {% extends '../base.html' %}
 
 {% load static %}
-{% block title %}Store{% endblock %}
+{% block title %}Checkout{% endblock %}
 
 {% block content %}
     {% include 'layouts/breadcrumbs.html' %}
@@ -15,7 +15,8 @@
                     here to enter your code.</h6>
                 </div>
             </div>
-            <form action="#" class="checkout__form">
+            <form action="{% url 'shop:order' %}" class="checkout__form" method="POST">
+                {% csrf_token %}
                 <div class="row">
                     <div class="col-lg-8">
                         <h5>Billing detail</h5>

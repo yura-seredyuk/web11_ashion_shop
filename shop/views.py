@@ -1,11 +1,15 @@
+import json
 from django.shortcuts import render, get_object_or_404
+from myauth.models import Profile
+from django.contrib.auth.models import User
 from cart.cart import Cart
 from cart.forms import CartAddProductForm
 from .models import Product, Brand, Tag, Category, Colors,\
-                    Sizes
+                    Sizes, Order
 from django.conf import settings
 
 from django.core.paginator import Paginator
+from decimal import Decimal
 
 def homepage(request):
     products = Product.objects.all().order_by('-created')
@@ -131,6 +135,17 @@ def shop_cart(request):
 
 def checkout(request):        
     return render(request, 'pages/checkout.html', {'cart': shop_cart(request)})
+
+def order(request):
+    cart = Cart(request)
+    order = Order()
+    order.order_data =json.dumps(cart.cart)
+    order.subtotal = sum(int(item['quantity']) * float(item['price']) for item in 
+                    cart.cart.values())
+    # user = User.objects.filter(username='user')
+    # order.profile_id = Profile.objects.filter(id=user)   
+    order.save()             
+    return render(request, 'pages/order.html')
 
 def contact(request):
     return render(request, 'pages/contact.html', {'cart': shop_cart(request)})

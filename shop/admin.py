@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.db import models
-from .models import Category, Tag, Brand, Product, Colors, Sizes
+from .models import Category, Tag, Brand, Product, Colors,\
+                    Sizes, Order
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -42,3 +43,11 @@ class SizesAdmin(admin.ModelAdmin):
     
 
 admin.site.register(Sizes, SizesAdmin)
+
+
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ['id', 'profile_id', 'created', 'subtotal', 'status']
+    list_filter = ['created','status']
+    list_editable = ['status']
+
+admin.site.register(Order, OrderAdmin)
