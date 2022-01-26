@@ -230,8 +230,9 @@
 <div class="search-model">
     <div class="h-100 d-flex align-items-center justify-content-center">
         <div class="search-close-switch">+</div>
-        <form class="search-model-form">
-            <input type="text" id="search-input" placeholder="Search here.....">
+        <form class="search-model-form" action="{% url 'shop:shop'%}" method="POST" name="search_form">
+            {% csrf_token %}
+            <input type="text" id="search-input" name="search_input" placeholder="Search here.....">
         </form>
     </div>
 </div>

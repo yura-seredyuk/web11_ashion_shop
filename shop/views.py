@@ -11,7 +11,7 @@ def homepage(request):
     return render(request, 'pages/index.html', {'products': products,
                                                 'cart': shop_cart(request)})
 
-def shop(request, tag_slug=None, category_slug=None):
+def shop(request, tag_slug=None, category_slug=None, search=None):
     tags = Tag.objects.all()
     categories = Category.objects.all()
     brands = Brand.objects.all()
@@ -29,7 +29,9 @@ def shop(request, tag_slug=None, category_slug=None):
         print(colors)
     else:
         colors = Colors.objects.all()
- 
+    
+    if request.method == 'POST':
+        search = request.POST.get('search_input').lower() 
 
     if category_slug:
         tag = Tag.objects.filter(slug=tag_slug)[0]
@@ -39,7 +41,8 @@ def shop(request, tag_slug=None, category_slug=None):
     elif tag_slug:
         tag = Tag.objects.filter(slug=tag_slug)[0]
         products = Product.objects.filter(tag=tag, colors__in=colors).order_by('-created').distinct()    
-    
+    elif search:
+        products = Product.objects.filter(slug__contains=search).order_by('-created').distinct()
     else:
         products = Product.objects.filter(colors__in=colors).order_by('-created').distinct()
 

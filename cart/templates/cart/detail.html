@@ -24,6 +24,8 @@
     <!-- Shop Cart Section Begin -->
     <section class="shop-cart spad">
         <div class="container">
+            <form action="{% url 'cart:cart_detail' %}" name="new_cart" method="post">
+            {% csrf_token %}
             <div class="row">
                 <div class="col-lg-12">
                     <div class="shop__cart__table">
@@ -61,7 +63,7 @@
                                     <td class="cart__price">$ {{ product.product.price }}</td> 
                                     <td class="cart__quantity">
                                         <div class="pro-qty">                                            
-                                            <input type="text" value={{product.quantity}}>
+                                            <input type="text" value={{product.quantity}} name="qty_{product.product.id}">
                                         </div>
                                     </td>
                                     <td class="cart__total">$ 0</td>
@@ -86,6 +88,8 @@
                     </div>
                 </div>
             </div>
+            <input type="submit" value="Submit">
+            </form>
             <div class="row">
                 <div class="col-lg-6">
                     <div class="discount__content">
@@ -110,6 +114,7 @@
         </div>
     </section>
     <!-- Shop Cart Section End -->
+    <!-- Shop Cart Script Section Begin -->
     <script>
         let cart__product__item = document.querySelectorAll('.cart_item')
         for(let i = 0; i< cart__product__item.length; i++ ){
@@ -139,4 +144,5 @@
             
         }
     </script>
+    <!-- Shop Cart Script Section End -->
 {% endblock %}   
