@@ -512,7 +512,7 @@ ol {
 .banner__text span {
 	font-size: 18px;
 	color: #ca1515;
-	text-transform: uppercase;
+	text-transform: uppercase;	
 }
 
 .banner__text h1 {
@@ -1802,6 +1802,11 @@ ol {
 	float: left;
 	margin-right: 10px;
 	margin-bottom: 10px;
+	cursor: pointer;
+}
+
+form[name="add_product_form"]{
+	display: none;
 }
 
 .product__details__button ul {

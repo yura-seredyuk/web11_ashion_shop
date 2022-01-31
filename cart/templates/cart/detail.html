@@ -63,7 +63,7 @@
                                     <td class="cart__price">$ {{ product.product.price }}</td> 
                                     <td class="cart__quantity">
                                         <div class="pro-qty">                                            
-                                            <input type="text" value={{product.quantity}} name="qty_{product.product.id}">
+                                            <input type="text" value={{product.quantity}} max="{{product.product.quantity}}"  name="qty_{{product.product.id}}">
                                         </div>
                                     </td>
                                     <td class="cart__total">$ 0</td>
@@ -125,7 +125,11 @@
             product.querySelector('.cart__total').textContent = `$ ${total}`
 
             product.addEventListener('click', function(event){
-                if (event.target.classList.contains('inc') || event.target.classList.contains('dec')){
+                quantity = parseInt(cart__product__item[i].querySelector('.cart__quantity input').value)
+                max = parseInt(cart__product__item[i].querySelector('.cart__quantity input').getAttribute('max'))
+                console.log(quantity);  
+                if ((event.target.classList.contains('inc') && quantity<=max )
+                        || ( event.target.classList.contains('dec') && quantity > 1)){
                     target_price = parseFloat(cart__product__item[i].querySelector('.cart__price').textContent.replace('$ ',''))
                     new_quantity = parseFloat(cart__product__item[i].querySelector('.cart__quantity input').value)
                     mew_total = parseFloat(target_price * new_quantity).toFixed(1)
@@ -139,6 +143,12 @@
                     cart__subtotal.textContent = `$ ${subtotal.toFixed(1)}`
                     let cart__total = document.querySelector('.cart__total__procced ul li:nth-child(2) span') 
                     cart__total.textContent = `$ ${subtotal.toFixed(1)}`   
+                }
+                else if(event.target.classList.contains('inc') && quantity>max ){
+                    cart__product__item[i].querySelector('.cart__quantity input').value = `${max}`
+                }
+                else if(event.target.classList.contains('dec') && quantity <= 1 ){
+                    cart__product__item[i].querySelector('.cart__quantity input').value = '1    '
                 }
             })
             

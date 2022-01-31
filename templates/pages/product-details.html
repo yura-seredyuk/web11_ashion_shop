@@ -73,18 +73,60 @@
                                     <input type="text" value="1" data-max="{{product.quantity}}">
                                 </div>
                             </div>
-                            <form action="{% url 'cart:cart_add' product_id=product.id %}" method="post">
+                            <form action="{% url 'cart:cart_add' product_id=product.id %}" name="add_product_form" method="post">
                                 {% csrf_token %}
                                 {{ cart_product_form }}
                                 <input type="submit" value="Add to cart">
                             </form>
-                            <a href="#" class="cart-btn" disabled><span class="icon_bag_alt"></span> Add to cart</a>
+                            <a onClick="document.add_product_form.submit()" class="cart-btn"><span class="icon_bag_alt"></span> Add to cart</a>
                             <ul>
                                 <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                                 <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
                             </ul>
                         </div>
                         {% endif %}
+                        <script>
+                            pro_qty = document.querySelector('div.pro-qty')
+                            cart_data = {{cart.cart.cart | safe}}
+                            if({{product.id}} in cart_data){
+                                quantity = cart_data[{{product.id}}]['quantity']
+                                if(quantity == 10){
+                                    document.querySelector('a.cart-btn').style.pointerEvents =  'none';
+                                }
+                                else{
+                                    document.querySelector('a.cart-btn').style.pointerEvents =  'auto';
+                                }
+                            }
+                            form = document.add_product_form
+                            pro_qty.addEventListener('click', function(event){
+                                
+                                if (event.target.classList.contains('inc')){
+                                    form.quantity.value = parseInt(pro_qty.querySelector('input[type="text"]').value) + 1
+                                    if(+form.quantity.value == {{product.quantity}} || +form.quantity.value == 10
+                                        || (10 - +form.quantity.value <= quantity)){
+                                        pro_qty.querySelector('.inc').style.pointerEvents =  'none';
+                                    }
+                                    pro_qty.querySelector('.dec').style.pointerEvents =  'auto';
+                                }
+                                else if(event.target.classList.contains('dec')){
+                                    form.quantity.value = parseInt(pro_qty.querySelector('input[type="text"]').value) - 1
+                                    if( +form.quantity.value == 1 ){
+                                        pro_qty.querySelector('.dec').style.pointerEvents =  'none';
+                                    }
+                                    pro_qty.querySelector('.inc').style.pointerEvents =  'auto';
+                                }
+                            })
+                            
+                            
+                            
+                            form.quantity.addEventListener('change', function(event){
+                                quantity = form.quantity.value
+                                if (quantity > {{product.quantity}}){
+                                    alert('Error!')
+                                }
+                                console.log(quantity);
+                            })
+                        </script>
                         <div class="product__details__widget">
                             <ul>
                                 <li>

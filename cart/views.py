@@ -31,7 +31,10 @@ def cart_remove(request, product_id):
 def cart_detail(request):
     cart_data = Cart(request)
     if request.method == 'POST':
-        print(request.POST.get('qty_5',''))
+        for key, value in request.POST.items():
+            if 'qty' in key:
+                cart_data.cart[str(key.split("_")[1])]['quantity'] = int(value)
+                cart_data.save()
     return render(request, 'cart/detail.html', 
                     {'cart':cart(request), 
                     'cart_data':cart_data, 
