@@ -11,6 +11,9 @@ from django.conf import settings
 from django.core.paginator import Paginator
 from decimal import Decimal
 
+from django.core.mail import EmailMessage
+
+
 def homepage(request):
     products = Product.objects.all().order_by('-created')
     return render(request, 'pages/index.html', {'products': products,
@@ -148,4 +151,13 @@ def order(request):
     return render(request, 'pages/order.html')
 
 def contact(request):
+    if request.method == 'POST':
+        name = request.POST['name']
+        email = request.POST['email']
+        site = request.POST['site']
+        message = request.POST['message']
+        subject = f'Subject: {name} - {site}'
+        body = f'{message} \nContact email: {email}'
+        email = EmailMessage(subject, body, to=['yurii.seredyuk@gmail.com'])
+        email.send()
     return render(request, 'pages/contact.html', {'cart': shop_cart(request)})

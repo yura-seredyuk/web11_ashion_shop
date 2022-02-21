@@ -134,3 +134,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CART_SESSION_ID = 'cart'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'djangosettings.test.mail@gmail.com'
+EMAIL_HOST_PASSWORD = 'django-insecure-pk7(s43y0*0ruj(8f173jy(2)ngrn@s1!2lxezvy&de)k@-mr^'
